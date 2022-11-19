@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+/home/adam/Documents/L2/JAVA/.metadata/.plugins/org.eclipse.jdt.core
+2248777082.index
+2089348824.index
+2477214411.index

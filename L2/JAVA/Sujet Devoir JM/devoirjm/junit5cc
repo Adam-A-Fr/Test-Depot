@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Dans la ligne suivante, remplacer ${HOME}/Applications/bin/lib/junit-jupiter
+# par le chemin absolu du répertoire dans lequel vous avez placé les fichiers .jar
+LIBDIR="${HOME}/Applications/bin/lib/junit-jupiter"
+
+
+CLASSPATH="${LIBDIR}/opentest4j-1.2.0.jar:${CLASSPATH}"
+CLASSPATH="${LIBDIR}/apiguardian-api-1.1.0.jar:${CLASSPATH}"
+CLASSPATH="${LIBDIR}/junit-jupiter-api-5.7.0.jar:${CLASSPATH}"
+CLASSPATH="${LIBDIR}/junit-jupiter-engine-5.7.0.jar:${CLASSPATH}"
+CLASSPATH="${LIBDIR}/junit-jupiter-migrationsupport-5.7.0.jar:${CLASSPATH}"
+CLASSPATH="${LIBDIR}/junit-jupiter-params-5.7.0.jar:${CLASSPATH}"
+CLASSPATH=".:${LIBDIR}/junit-jupiter-5.7.0.jar:${CLASSPATH}"
+
+exec javac -cp $CLASSPATH "$@"

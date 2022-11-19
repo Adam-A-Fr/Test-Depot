@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Dans la ligne suivante, remplacer ${HOME}/Applications/bin/lib/junit-jupiter
+# par le chemin absolu du répertoire dans lequel vous avez placé les fichiers .jar
+LIBDIR="${HOME}/Applications/bin/lib/junit-jupiter"
+
+exec java -jar ${LIBDIR}/junit-platform-console-standalone-1.7.0.jar -cp="." -c "$@"

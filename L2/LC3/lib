@@ -1,0 +1,448 @@
+        .ORIG x3000
+LD R0,OP1
+LD R1,OP2
+LD R3,RES
+NOT R0,R0
+NOT R1,R1
+AND R2,R1,R0
+NOT R3,R2
+ST  R3,RES
+       HALT
+OP1    .FILL #1
+OP2    .FILL #0
+RES    .FILL #0
+
+        .END
+
+
+        .ORIG x3000
+LD R0,OP1
+LD R1,OP2
+LD R3,RES
+
+BRz opz
+NOT R0,R0
+NOT R1,R1
+BR end
+opz AND R2,R1,R0
+NOT R3,R2
+ST  R3,RES
+end
+       HALT
+OP1    .FILL #1
+OP2    .FILL #0
+RES    .FILL #0
+
+
+        .END
+        
+        
+        .ORIG x3000
+IN
+LD R0,saut
+OUT
+GETC
+OUT
+HALT
+saut .FILL x000A
+
+        .END
+        
+        
+.ORIG x3000
+LD R2,test
+LD R1,val
+IN
+ADD R0,R0,R2
+BRnz error
+ADD R1,R0,R1
+BRnz if
+error
+LD R0,sinon
+BR end
+if
+end
+HALT
+test .FILL #-48
+val  .FILL #-9
+sinon  .FILL #-1
+.END
+
+
+
+	.ORIG x3000
+LD R0,nb
+ADD R0,R0,R0    
+ADD R1,R0,R0    
+ADD R1,R1,R1   
+ADD R0,R1,R0
+HALT			
+nb .FILL #10	
+	.END
+	
+	
+.ORIG x3000
+LD R2,test
+LD R1,val
+IN
+ADD R0,R0,R2
+BRnz error
+ADD R7,R0,R1
+BRnz ifa
+BR end
+ifa
+ADD R0,R0,R0    
+ADD R4,R0,R0    
+ADD R4,R4,R4   
+ADD R3,R4,R0
+IN
+ADD R0,R0,R2
+BRnz error
+ADD R7,R0,R1
+BRnz if
+BR end
+if
+ADD R0,R0,R3
+ADD R0,R0,R0    
+ADD R4,R0,R0    
+ADD R4,R4,R4   
+ADD R3,R4,R0
+IN
+ADD R0,R0,R2
+BRnz error
+ADD R7,R0,R1
+BRnz ifb
+BR end
+ifb
+ADD R0,R0,R3
+ADD R0,R0,R0    
+ADD R4,R0,R0    
+ADD R4,R4,R4   
+ADD R3,R4,R0
+IN
+ADD R0,R0,R2
+BRnz error
+ADD R7,R0,R1
+BRnz ifC
+BR end
+ifC
+ADD R0,R0,R3
+error 
+end 
+HALT
+test .FILL #-48
+val  .FILL #-9
+.END
+
+
+.ORIG x3000
+LD R2,test
+LD R3,val1
+LD R4,val2
+LD R5,somme
+LEA R1,tab
+;;JSR loop
+loop
+IN
+ADD R0,R0,R2
+ADD R5,R5,R0
+STR R0,R1,#0
+ADD R1,R1,R4
+ADD R3,R3,#-1
+brp loop
+ST R5,somme
+HALT
+
+;;RET
+
+tab  .BLKW #10
+val1  .FILL #10
+val2  .FILL #1
+test .FILL #-48
+somme .FILL #0
+.END	
+
+
+.ORIG x3000
+
+LD R0,x
+LD R1,y
+LD R2,z
+brp cas1
+;;sinon
+ADD R0,R0,R0
+ST R0,y
+br end
+;;si
+cas1
+ADD R0,R0,#0
+brzp pos
+NOT R0,R0
+ADD R0,R0,#1
+pos
+ST R0,y
+end
+HALT
+
+
+x .FILL #10
+y .FILL #1
+z .FILL #48
+.END
+        
+        
+        
+.ORIG x3000
+LD R0,somme
+LD R1,n
+LD R3,i
+LD R2,k
+brn end
+loop
+ADD R3,R3,#-1
+ADD R1,R1,R3
+ADD R0,R0,R1
+LD R1,n
+ADD R4,R2,R3
+brp loop
+ST R0,somme
+end
+HALT
+somme .FILL #0
+n .FILL #10
+k .FILL #-7
+i .FILL #1
+.END        
+
+
+.ORIG x3000
+LD R2,test
+LD R3,taille
+LD R4,i
+LEA R1,tab
+;;JSR loop
+loop
+IN
+ADD R0,R0,R2
+STR R0,R1,#0
+ADD R1,R1,R4
+ADD R3,R3,#-1
+brp loop
+
+LEA R6,tab
+LD R3,taille
+IN
+ADD R0,R0,R2
+NOT R0,R0
+ADD R0,R0,#1
+LD R1, zero
+loopBis
+
+LDR R5,R6,#0
+ADD R5,R5,R0
+brnp non
+ADD R1,R1,#1
+non
+ADD R6,R6,R4
+ADD R3,R3,#-1
+brp loopBis
+HALT
+
+tab  .BLKW #3
+taille  .FILL #3
+i  .FILL #1
+test .FILL #-48
+zero .FILL #0
+.END	
+
+
+.ORIG x3000
+LD R2,test
+LD R3,taille
+LD R4,i
+LEA R1,tab
+
+loop
+IN
+ADD R0,R0,R2
+STR R0,R1,#0
+ADD R1,R1,R4
+ADD R3,R3,#-1
+brp loop
+
+JSR syt
+HALT
+
+syt : LEA R6,tab
+LD R3,taille
+LD R1, zero
+LDR R5,R6,#0
+ADD R6,R6,R4
+LDR R2,R6,#0
+NOT R3,R2
+ADD R2,R2,#1
+ADD R6,R5,R2
+brnp end
+ST R5,tab
+end
+RET
+
+tab  .BLKW #2
+taille  .FILL #2
+i  .FILL #1
+test .FILL #-48
+zero .FILL #0
+.END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ORIG x3000 
+AND R0,R0,#0  ;Question1
+LD R5,val     ;Question2
+ADD R5,R5,#14 ;Question3
+ADD R4,R5,#0  ;Question4
+AND R3,R4,xF  ;Question5
+
+IN            ;Question6
+ST R0,y       
+LD R2,y       ;Question7
+ST R2,z
+
+
+LEA R1,Tab    ;Question8
+ST R1,p
+
+LD R0,p       ;Question9
+STR R0,R1,#2
+
+LD R0,y       ;Question10
+OUT
+
+Halt
+val .FILL #50
+
+y   .FILL #0
+z   .FILL #0
+p   .FILL #0
+Tab .FILL x30
+    .FILL #3
+    .FILL x38
+    .FILL #5
+
+.END
+
+
+
+
+.ORIG x3000
+LD R2,test    ;chargement de la borne ASCII inf en registre
+LD R1,val     ;Taille de l'intervalle de l'alphabet
+IN            ; Lecture d'un caractére
+ADD R4,R0,R2  ;Verification borne inf
+BRn error
+ADD R1,R4,R1  ;verification de la presence dans l'intervalle
+BRnz end
+error
+LD R4,sinon   ;sauvegarde du rang si dans l'alphabet ou -1 sinon 
+BR end
+end
+AND R4,R4,R4  ;verification de l'état
+brn no
+ADD R5,R4,#-13;Verfication de la moitié de l'alphabet
+brnz oui
+ADD R0,R0,#-13;deuxième moitié de l'alphabet
+br no
+oui
+ADD R0,R0,#13 ;Premiere moitié de l'alphabet
+no
+OUT           ;Affichage
+HALT
+test .FILL #-97
+val  .FILL #-25
+sinon  .FILL #-1
+.END
+
+.ORIG x3000
+LD R2,test    ;chargement de la borne ASCII inf en registre
+LD R1,val     ;Taille de l'intervalle de l'alphabet
+IN            ; Lecture d'un caractére
+ADD R4,R0,R2  ;Verification borne inf
+BRn error
+ADD R1,R4,R1  ;verification de la presence dans l'intervalle
+BRnz end
+error
+LD R4,sinon   ;sauvegarde du rang si dans l'alphabet ou -1 sinon 
+BR end
+end
+AND R4,R4,R4  ;verification de l'état
+brn no
+ADD R5,R4,#-13;Verfication de la moitié de l'alphabet
+brnz oui
+ADD R0,R0,#-13;deuxième moitié de l'alphabet
+br no
+oui
+ADD R0,R0,#13 ;Premiere moitié de l'alphabet
+no
+OUT           ;Affichage
+HALT
+test .FILL #-65
+val  .FILL #-25
+sinon  .FILL #-1
+.END
+
+.ORIG x3000 
+LD R2,Taille  ;chargement de la taille du tableau 
+LEA R1,Tab    ;chargement de l'adresse du tableau
+Loop
+ADD R2,R2,#-1 ; décrémentation du compteur
+BRn Fin
+LDR R0,R1,#0  ;prend une case du tableau
+ADD R0,R0,R0  ;double la case
+STR R0,R1,#0  ; la remet dans la memoire
+ADD R1,R1,#1  ; incrementation de l'adresse
+br Loop
+Fin
+Halt
+; Declaration du tableau
+Tab .FILL #2
+    .FILL #3
+    .FILL #4
+    .FILL #5
+    .FILL #6
+Taille .FILL #5 ; Declaration de la taille
+.END
+
+
